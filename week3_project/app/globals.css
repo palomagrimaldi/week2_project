@@ -1,0 +1,62 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: white;
+  color: #111827;
+}
+
+.nav {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  background: #f3f4f6;
+}
+
+.nav a {
+  color: #111827;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.page {
+  padding: 2rem;
+  max-width: 900px;
+  margin: auto;
+}
+
+form {
+  display: grid;
+  gap: 12px;
+  max-width: 500px;
+  margin-top: 20px;
+}
+
+input,
+textarea,
+button {
+  padding: 10px;
+  font-size: 16px;
+}
+
+textarea {
+  min-height: 120px;
+}
+
+button {
+  cursor: pointer;
+}
+.dark {
+  background-color: #111827;
+  color: white;
+}
+
+.dark .nav {
+  background-color: #1f2937;
+}
+
+.dark input,
+.dark textarea {
+  background-color: #1f2937;
+  color: white;
+  border: 1px solid #555;
+}
