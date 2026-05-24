@@ -1,60 +1,124 @@
 "use client";
 
+import React from "react";
+
 export default function ContactForm() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+
+  const handleSubmit = (
+    event: React.FormEvent<HTMLFormElement>
+  ) => {
+
     event.preventDefault();
 
-    const name = document.getElementById("name") as HTMLInputElement;
-    const email = document.getElementById("email") as HTMLInputElement;
-    const message = document.getElementById("message") as HTMLTextAreaElement;
-    const feedback = document.getElementById("feedback");
+    const form = event.currentTarget;
 
-    let errors: string[] = [];
+    const name =
+      form.elements.namedItem("name") as HTMLInputElement;
 
-    if (name.value.trim() === "") {
-      errors.push("Name is required.");
+    const email =
+      form.elements.namedItem("email") as HTMLInputElement;
+
+    const message =
+      form.elements.namedItem("message") as HTMLTextAreaElement;
+
+    const feedback =
+      document.getElementById("feedback");
+
+    // EMPTY FIELDS
+
+    if (
+      !name.value ||
+      !email.value ||
+      !message.value
+    ) {
+
+      if (feedback) {
+
+        feedback.textContent =
+          "Please complete all fields before submitting.";
+
+      }
+
+      return;
     }
 
-    if (email.value.trim() === "" || !email.validity.valid) {
-      errors.push("Valid email is required.");
+    // INVALID EMAIL
+
+    if (
+      !email.value.includes("@") ||
+      !email.value.includes(".")
+    ) {
+
+      if (feedback) {
+
+        feedback.textContent =
+          "Please enter a valid email address.";
+
+      }
+
+      return;
     }
 
-    if (message.value.trim() === "") {
-      errors.push("Message is required.");
+    // SUCCESS
+
+    if (feedback) {
+
+      feedback.textContent =
+        "Thank you! Your message was successfully validated.";
+
     }
 
-    if (!feedback) return;
-
-    if (errors.length > 0) {
-      feedback.textContent = errors.join(" ");
-      feedback.setAttribute(
-        "style",
-        "color: red; font-weight: bold; margin-top: 10px;"
-      );
-    } else {
-      feedback.textContent = "Message sent successfully!";
-      feedback.setAttribute(
-        "style",
-        "color: lightgreen; font-weight: bold; margin-top: 10px;"
-      );
-      event.currentTarget.reset();
-    }
+    form.reset();
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label htmlFor="name">Name</label>
-      <input id="name" type="text" placeholder="Your name" />
 
-      <label htmlFor="email">Email</label>
-      <input id="email" type="email" placeholder="Your email" />
+    <form
+      onSubmit={handleSubmit}
+      noValidate
+    >
 
-      <label htmlFor="message">Message</label>
-      <textarea id="message" placeholder="Write your message here"></textarea>
+      <label htmlFor="name">
+        Name
+      </label>
 
-      <button type="submit">Send Message</button>
+      <input
+        id="name"
+        name="name"
+        type="text"
+        placeholder="Your name"
+      />
 
-      <p id="feedback" aria-live="polite"></p>
+      <label htmlFor="email">
+        Email
+      </label>
+
+      <input
+        id="email"
+        name="email"
+        type="text"
+        placeholder="Your email"
+      />
+
+      <label htmlFor="message">
+        Message
+      </label>
+
+      <textarea
+        id="message"
+        name="message"
+        placeholder="Write your message here"
+      ></textarea>
+
+      <button type="submit">
+        Send Message
+      </button>
+
+      <p
+        id="feedback"
+        aria-live="polite"
+      ></p>
+
     </form>
   );
 }
