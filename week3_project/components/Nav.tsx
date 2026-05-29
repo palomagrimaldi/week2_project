@@ -5,7 +5,15 @@ export default function Nav() {
   return (
     <nav className="nav">
       <Link href="/">Home</Link>
+
+      {" | "}
+
       <Link href="/contact">Contact</Link>
+
+      {" | "}
+
+      <Link href="/country">Country Data</Link>
+
       <ThemeToggle />
     </nav>
   );
