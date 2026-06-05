@@ -1,87 +1,58 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 
 export default function ContactForm() {
+  const [feedback, setFeedback] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (
+  const handleSubmit = async (
     event: React.FormEvent<HTMLFormElement>
   ) => {
-
     event.preventDefault();
 
     const form = event.currentTarget;
+    const formData = new FormData(form);
 
-    const name =
-      form.elements.namedItem("name") as HTMLInputElement;
+    const name = String(formData.get("name") || "");
+    const email = String(formData.get("email") || "");
+    const body = String(formData.get("body") || "");
 
-    const email =
-      form.elements.namedItem("email") as HTMLInputElement;
-
-    const message =
-      form.elements.namedItem("message") as HTMLTextAreaElement;
-
-    const feedback =
-      document.getElementById("feedback");
-
-    // EMPTY FIELDS
-
-    if (
-      !name.value ||
-      !email.value ||
-      !message.value
-    ) {
-
-      if (feedback) {
-
-        feedback.textContent =
-          "Please complete all fields before submitting.";
-
-      }
-
+    if (!name || !email || !body) {
+      setFeedback("Please complete all fields before submitting.");
       return;
     }
 
-    // INVALID EMAIL
-
-    if (
-      !email.value.includes("@") ||
-      !email.value.includes(".")
-    ) {
-
-      if (feedback) {
-
-        feedback.textContent =
-          "Please enter a valid email address.";
-
-      }
-
+    if (!email.includes("@") || !email.includes(".")) {
+      setFeedback("Please enter a valid email address.");
       return;
     }
 
-    // SUCCESS
+    setIsSubmitting(true);
+    setFeedback("Sending message...");
 
-    if (feedback) {
+    const response = await fetch("/api/contact", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name, email, body }),
+    });
 
-      feedback.textContent =
-        "Thank you! Your message was successfully validated.";
-
+    if (!response.ok) {
+      setFeedback("Something went wrong. Please try again.");
+      setIsSubmitting(false);
+      return;
     }
 
+    setFeedback("Thank you! Your message was saved successfully.");
     form.reset();
+    setIsSubmitting(false);
   };
 
   return (
-
-    <form
-      onSubmit={handleSubmit}
-      noValidate
-    >
-
-      <label htmlFor="name">
-        Name
-      </label>
-
+    <form onSubmit={handleSubmit} noValidate>
+      <label htmlFor="name">Name</label>
       <input
         id="name"
         name="name"
@@ -89,10 +60,7 @@ export default function ContactForm() {
         placeholder="Your name"
       />
 
-      <label htmlFor="email">
-        Email
-      </label>
-
+      <label htmlFor="email">Email</label>
       <input
         id="email"
         name="email"
@@ -100,25 +68,18 @@ export default function ContactForm() {
         placeholder="Your email"
       />
 
-      <label htmlFor="message">
-        Message
-      </label>
-
+      <label htmlFor="body">Message</label>
       <textarea
-        id="message"
-        name="message"
+        id="body"
+        name="body"
         placeholder="Write your message here"
       ></textarea>
 
-      <button type="submit">
-        Send Message
+      <button type="submit" disabled={isSubmitting}>
+        {isSubmitting ? "Sending..." : "Send Message"}
       </button>
 
-      <p
-        id="feedback"
-        aria-live="polite"
-      ></p>
-
+      <p aria-live="polite">{feedback}</p>
     </form>
   );
 }

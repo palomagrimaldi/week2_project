@@ -1,48 +1,27 @@
-import Hero from "@/components/Hero";
-import Card from "@/components/Card";
-import ThemeToggle from "@/components/ThemeToggle";
-import ContactForm from "@/components/ContactForm";
-
-const services = [
-  {
-    title: "Capital and Banking Advisory",
-    description:
-      "Support with funding strategy and banking relationships.",
-  },
-
-  {
-    title: "FP&A and Cost Control",
-    description:
-      "Financial planning, forecasting, and budgeting solutions.",
-  },
-];
-
-export default function Home() {
-
+import { createMessage } from "@/app/actions";
+export default function ContactPage() {
   return (
+    <main>
+      <h1>Contact Grimaldi’s Atelier</h1>
 
-    <>
+      <form action={createMessage}>
+        <label>
+          Name
+          <input name="name" type="text" required />
+        </label>
 
-      <Hero />
+        <label>
+          Email
+          <input name="email" type="email" required />
+        </label>
 
-      <section>
+        <label>
+          Message
+          <textarea name="body" required></textarea>
+        </label>
 
-        {services.map((service) => (
-
-          <Card
-            key={service.title}
-            title={service.title}
-            description={service.description}
-          />
-
-        ))}
-
-      </section>
-
-      
-            <ContactForm />
-
-    </>
-
+        <button type="submit">Send Message</button>
+      </form>
+    </main>
   );
 }
