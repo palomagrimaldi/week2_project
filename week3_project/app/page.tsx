@@ -1,7 +1,6 @@
 import Hero from "@/components/Hero";
 import Card from "@/components/Card";
 import ThemeToggle from "@/components/ThemeToggle";
-import ContactForm from "@/components/ContactForm";
 
 export default function Home() {
   return (
@@ -27,7 +26,6 @@ export default function Home() {
 
       <ThemeToggle />
 
-      <ContactForm />
-    </>
+         </>
   );
 }
