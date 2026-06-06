@@ -1,11 +1,10 @@
 export const dynamic = "force-dynamic";
-import { createMessage } from "@/app/actions";
 export default function ContactPage() {
   return (
     <main>
       <h1>Contact Grimaldi’s Atelier</h1>
 
-      <form action={createMessage}>
+      <form>
         <label>
           Name
           <input name="name" type="text" required />
