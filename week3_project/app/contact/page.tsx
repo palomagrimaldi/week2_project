@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { createMessage } from "@/app/actions";
 export default function ContactPage() {
   return (
