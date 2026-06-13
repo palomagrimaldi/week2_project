@@ -11,11 +11,7 @@ export async function createMessage(formData: FormData) {
   const body = String(formData.get("body") || "");
 
   await prisma.message.create({
-    data: {
-      name,
-      email,
-      body,
-    },
+    data: { name, email, body },
   });
 
   redirect("/messages");
